@@ -16,7 +16,7 @@ class AuthController extends Controller
             return response()->json(["token" => [
                 "token" => $token->plainTextToken,
                 "type" => "Bearer",
-                "abilities" => ["*"]
+                "abilities" => ["kids:read:unwise"]
             ]]);
         }
 

@@ -9,6 +9,7 @@ use App\Http\Requests\Kids\WriteKidRequest;
 use App\Models\Kid;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class KidsController extends Controller
 {
@@ -36,14 +37,18 @@ class KidsController extends Controller
     public function show(ReadKidRequest $request, Kid $kid): JsonResponse
     {
         $user = $request->user();
+        Log::debug($user);
         $canReadAll = $user && (
             $user->tokenCan('*') || $user->tokenCan('kids:list')
         );
+
+        Log::debug($canReadAll);
 
         if (!$canReadAll && $user->tokenCan('kids:read:unwise')) {
             if ($kid->wiseLevel !== Kid::WISE_LEVEL_4) {
                 abort(404); // acts like the kid does not exist
             }
+            error_log("hi mom");
         }
 
         return response()->json($kid);
