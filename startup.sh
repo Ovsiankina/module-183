@@ -1,15 +1,15 @@
 # File name: startup.sh
 # Author: ovsiankina
 # Date created: 2025-12-05 09:59:43
-# Date modified: 2025-12-05 10:02:50
+# Date modified: 2025-12-05 13:09:02
 # ----------------------------------
 # Copyright (c) 2025 Ovsiankina <ovsiankina@proton.me>
 #
 # All rights reserved.
 
+echo "Update composer"
+composer update
 if [[ ! -f database/database.sqlite ]]; then
-    echo "Update composer"
-    composer update
     echo "Install with composer"
     composer install
     echo "Init of dot env"

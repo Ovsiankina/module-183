@@ -26,7 +26,7 @@ class KidsController extends Controller
     public function store(StoreKidRequest $request): JsonResponse
     {
         $kid = Kid::create($request->validated());
-        return response()->json($kid, 201); // NOTE(ex 2): Ajout du code 201
+        return response()->json($kid); // NOTE(ex 2): Ajout du code 201
     }
 
     /**
