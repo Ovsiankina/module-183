@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Kids\ReadKidRequest;
 use App\Http\Requests\Kids\StoreKidRequest;
 use App\Http\Requests\Kids\UpdateKidsRequest;
+use App\Http\Requests\Kids\WriteKidRequest;
 use App\Models\Kid;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -26,7 +27,7 @@ class KidsController extends Controller
     public function store(StoreKidRequest $request): JsonResponse
     {
         $kid = Kid::create($request->validated());
-        return response()->json($kid); // NOTE(ex 2): Ajout du code 201
+        return response()->json($kid, 201); // NOTE(ex 2): Ajout du code 201
     }
 
     /**
@@ -40,7 +41,7 @@ class KidsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    // NOTE(exa): Type `Request` changé en `UpdateKidsRequest`
+    // NOTE(ex 3): Type `Request` changé en `UpdateKidsRequest`
     // public function update(Request $request, Kid $kid): JsonResponse
     public function update(UpdateKidsRequest $request, Kid $kid): JsonResponse
     {
@@ -51,7 +52,7 @@ class KidsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Kid $kid): JsonResponse
+    public function destroy(WriteKidRequest $request, Kid $kid): JsonResponse
     {
         $kid->delete();
         return response()->json(null, 204);

@@ -30,7 +30,14 @@ class CreateTokenRequest extends FormRequest
                 "required",
                 "string",
                 "distinct",
-                Rule::in(["*", "kids:list", "kids:read:all", "kids:update"])
+                Rule::in([
+                    "*",
+                    "kids:list",
+                    "kids:read:all",
+                    "kids:update",
+                    // NOTE(ex 5): Add kids:read:unwise as a valid rule
+                    "kids:read:unwise"
+                ])
             ],
         ];
     }
