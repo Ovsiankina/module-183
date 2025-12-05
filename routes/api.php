@@ -19,23 +19,23 @@ use Illuminate\Support\Facades\Route;
 
 // Pour afficher toutes les routes : php artisan route:list
 
-Route::prefix("kids")->group(function() {
+Route::prefix("kids")->group(function () {
     Route::get("", [KidsController::class, "index"]);
     Route::get("{kid}", [KidsController::class, "show"]);
-    Route::put("", [KidsController::class, "store"])->middleware('auth:sanctum');
+    Route::put("store", [KidsController::class, "store"])->middleware('auth:sanctum');
     Route::patch("{kid}", [KidsController::class, "update"])->middleware('auth:sanctum');
     Route::delete("{kid}", [KidsController::class, "destroy"])->middleware('auth:sanctum');
 });
 
-Route::middleware(['auth:sanctum', 'ability:*'])->group(function() {
+Route::middleware(['auth:sanctum', 'ability:*'])->group(function () {
     Route::apiResources([
         "tokens" => TokensController::class,
     ]);
 });
 
-Route::prefix("auth")->group(function() {
+Route::prefix("auth")->group(function () {
     Route::post("login", [AuthController::class, "login"]);
-    Route::middleware('auth:sanctum')->group(function() {
+    Route::middleware('auth:sanctum')->group(function () {
         Route::post("logout", [AuthController::class, "logout"]);
     });
 });

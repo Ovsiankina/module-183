@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Kids;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class StoreKidRequest extends FormRequest
 {
@@ -22,11 +21,14 @@ class StoreKidRequest extends FormRequest
      */
     public function rules(): array
     {
+        // NOTE(ex 2): correction + ajouts de régles
         return [
-            "name" => "required|string|max:250",
-            "address" => "required|string|max:250",
-            "city" => "required|string|max:250",
-            "whishList" => "required|string|max:2000",
+            "name" => "required|string|min:1|max:250",
+            "birthDate" => "required|date_format:Y-m-d\TH:i:sP", // https://www.php.net/manual/en/datetime.format.php
+            "address" => "required|string|min:1|max:250",
+            "zipCode" => "required|integer|digits:4",
+            "city" => "required|string|min:1|max:250",
+            "wishList" => "nullable|string|min:0|max:2000",
         ];
     }
 }
