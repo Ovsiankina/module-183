@@ -35,6 +35,17 @@ class KidsController extends Controller
      */
     public function show(ReadKidRequest $request, Kid $kid): JsonResponse
     {
+        $user = $request->user();
+        $canReadAll = $user && (
+            $user->tokenCan('*') || $user->tokenCan('kids:list')
+        );
+
+        if (!$canReadAll && $user->tokenCan('kids:read:unwise')) {
+            if ($kid->wiseLevel !== Kid::WISE_LEVEL_4) {
+                abort(404); // acts like the kid does not exist
+            }
+        }
+
         return response()->json($kid);
     }
 
