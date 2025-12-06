@@ -12,11 +12,19 @@ class AuthController extends Controller
     public function login(AuthLoginRequest $request): JsonResponse
     {
         if (Auth::once($request->validated())) {
-            $token = Auth::user()->createToken("login-token");
+            /* $token = Auth::user()->createToken("login-token"); */
+
+            $token = Auth::user()->createToken(
+                'login-token',
+                // NOTE(ex 5): Force token to NOT hold the '*' ability but only
+                // 'kids:read:unwise' for testing purposes
+                ['kids:read:unwise']
+            );
+
             return response()->json(["token" => [
                 "token" => $token->plainTextToken,
                 "type" => "Bearer",
-                "abilities" => ["kids:read:unwise"]
+                "abilities" => ["*"],
             ]]);
         }
 

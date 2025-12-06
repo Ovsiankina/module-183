@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Kids\ListKidRequest;
 use App\Http\Requests\Kids\ReadKidRequest;
 use App\Http\Requests\Kids\StoreKidRequest;
 use App\Http\Requests\Kids\UpdateKidsRequest;
 use App\Http\Requests\Kids\WriteKidRequest;
 use App\Models\Kid;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class KidsController extends Controller
@@ -16,8 +16,9 @@ class KidsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): JsonResponse
+    public function index(ListKidRequest $request): JsonResponse
     {
+        $request->validated();
         $kids = Kid::all("id", "name", "birthDate", "wiseLevel");
         return response()->json($kids);
     }
@@ -34,21 +35,27 @@ class KidsController extends Controller
     /**
      * Display the specified resource.
      */
+    // NOTE(ex 5): filter out kids that aren't `WISE_LEVEL_4` when the only
+    // ability is set to `kids:read:unwise`
     public function show(ReadKidRequest $request, Kid $kid): JsonResponse
     {
         $user = $request->user();
-        Log::debug($user);
-        $canReadAll = $user && (
-            $user->tokenCan('*') || $user->tokenCan('kids:list')
-        );
 
-        Log::debug($canReadAll);
+        $canAll = $user->tokenCan('*') || $user->tokenCan('kids:list');
+        $canUnwise = $user->tokenCan('kids:read:unwise');
 
-        if (!$canReadAll && $user->tokenCan('kids:read:unwise')) {
+        if (! $canAll && ! $canUnwise) {
+            return response()->json([
+                'message' => 'Permission denied.',
+            ], 403);
+        }
+
+        if (! $canAll && $canUnwise) {
             if ($kid->wiseLevel !== Kid::WISE_LEVEL_4) {
-                abort(404); // acts like the kid does not exist
+                return response()->json([
+                    'message' => 'Permission denied for this kid.',
+                ], 403);
             }
-            error_log("hi mom");
         }
 
         return response()->json($kid);
