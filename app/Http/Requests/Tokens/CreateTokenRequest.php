@@ -35,7 +35,7 @@ class CreateTokenRequest extends FormRequest
                     "kids:list",
                     "kids:read:all",
                     "kids:update",
-                    // NOTE(ex 5): Add kids:read:unwise as a valid rule
+                    // NOTE(ex5): Add kids:read:unwise as a valid rule
                     "kids:read:unwise"
                 ])
             ],

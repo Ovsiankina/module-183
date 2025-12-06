@@ -20,11 +20,11 @@ use Illuminate\Support\Facades\Route;
 // Pour afficher toutes les routes : php artisan route:list
 
 Route::prefix("kids")->group(function () {
-    // NOTE(ex 4): Add `-->middleware(/* ... */)` to get routes
+    // NOTE(ex4): Add `-->middleware(/* ... */)` to get routes
     Route::get("", [KidsController::class, "index"])->middleware('auth:sanctum');;
     Route::get("{kid}", [KidsController::class, "show"])->middleware('auth:sanctum');;
-    // NOTE(ex 4): Remove `-->middleware(/* ... */)` from post route to allow everyone
-    // Route::post("store", [KidsController::class, "store"]); // Wrong: non-REST URL; kept for comparison
+    // NOTE(ex2): Remove `-->middleware(/* ... */)` from post route to allow everyone
+    // Route::post("store", [KidsController::class, "store"]); // Wrong: non-REST URL
     Route::post("", [KidsController::class, "store"]);
     Route::patch("{kid}", [KidsController::class, "update"])->middleware('auth:sanctum');
     Route::delete("{kid}", [KidsController::class, "destroy"])->middleware('auth:sanctum');

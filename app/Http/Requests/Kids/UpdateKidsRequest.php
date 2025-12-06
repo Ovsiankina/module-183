@@ -7,12 +7,12 @@ use App\Models\Kid;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-// NOTE(ex 3): Fichier ajouté avec la cmd
+// NOTE(ex3): Fichier ajouté avec la cmd
 // `php artisan make:request Kids/UpdateKidsRequest`
 class UpdateKidsRequest extends AbilityBasedRequest
 {
 
-    // NOTE(ex 4): Add abilities
+    // NOTE(ex4): Add abilities
     public function getAbilities(): array
     {
         return ["*", "kids:update"];
@@ -24,7 +24,7 @@ class UpdateKidsRequest extends AbilityBasedRequest
      */
     public function rules(): array
     {
-        // NOTE(ex 3): Ajout des rules pour UpdateKids en utilisant les const
+        // NOTE(ex3): Ajout des rules pour UpdateKids en utilisant les const
         // déclarés dans la classe `Kid`
         return [
             'wiseLevel' => [

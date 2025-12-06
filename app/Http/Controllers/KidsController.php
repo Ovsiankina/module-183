@@ -20,7 +20,7 @@ class KidsController extends Controller
     {
         $request->validated();
         $kids = Kid::all("id", "name", "birthDate", "wiseLevel");
-        return response()->json($kids);
+        return response()->json($kids, 200);
     }
 
     /**
@@ -29,13 +29,15 @@ class KidsController extends Controller
     public function store(StoreKidRequest $request): JsonResponse
     {
         $kid = Kid::create($request->validated());
-        return response()->json($kid, 201); // NOTE(ex 2): Ajout du code 201
+
+        // NOTE(ex2): Ajout du code 201 => Successfully Created
+        return response()->json($kid, 201);
     }
 
     /**
      * Display the specified resource.
      */
-    // NOTE(ex 5): filter out kids that aren't `WISE_LEVEL_4` when the only
+    // NOTE(ex5): filter out kids that aren't `WISE_LEVEL_4` when the only
     // ability is set to `kids:read:unwise`
     public function show(ReadKidRequest $request, Kid $kid): JsonResponse
     {
@@ -58,18 +60,18 @@ class KidsController extends Controller
             }
         }
 
-        return response()->json($kid);
+        return response()->json($kid, 200);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    // NOTE(ex 3): Type `Request` changé en `UpdateKidsRequest`
+    // NOTE(ex3): Type `Request` changé en `UpdateKidsRequest`
     // public function update(Request $request, Kid $kid): JsonResponse
     public function update(UpdateKidsRequest $request, Kid $kid): JsonResponse
     {
         $kid->update($request->validated());
-        return response()->json($kid);
+        return response()->json($kid, 200);
     }
 
     /**
@@ -78,6 +80,6 @@ class KidsController extends Controller
     public function destroy(WriteKidRequest $request, Kid $kid): JsonResponse
     {
         $kid->delete();
-        return response()->json(null, 204);
+        return response()->json(null, 204); // NOTE: 204 => No Content
     }
 }

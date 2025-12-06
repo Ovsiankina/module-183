@@ -10,7 +10,7 @@ class StoreKidRequest extends FormRequest
      * Determine if the user is authorized to make this request.
      */
 
-    // NOTE(ex 3): Allow everyone
+    // NOTE(ex3): Allow everyone
     public function authorize(): bool
     {
         return true;
@@ -23,7 +23,7 @@ class StoreKidRequest extends FormRequest
      */
     public function rules(): array
     {
-        // NOTE(ex 2): correction + ajouts de régles
+        // NOTE(ex2): correction + ajouts de régles
         return [
             "name" => "required|string|min:1|max:250",
             "birthDate" => "required|date_format:Y-m-d", // https://www.php.net/manual/en/datetime.format.php
